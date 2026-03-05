@@ -1,0 +1,26 @@
+{
+  "titulo": "RELATÓRIO DE ANÁLISE - DENGUE DATASUS",
+  "data_geracao": "2026-03-05T09:07:14.202641",
+  "resumo_geral": {
+    "Total de Casos": 20,
+    "Total de Pacientes Únicos": 20,
+    "Total de Municípios": 8,
+    "Estados Afetados": 1,
+    "Período de Notificação": "2023-12-14 a 2023-12-29",
+    "Óbitos Registrados": 0,
+    "Taxa de Óbito (%)": 0.0,
+    "Hospitalizados": 1,
+    "Taxa de Hospitalização (%)": 5.0
+  },
+  "analises": {
+    "faixas_etarias": [
+      {
+        "faixa": "60+ anos",
+        "casos": 20,
+        "percentual": 100.0
+      }
+    ],
+    "sintomas_frequentes": [],
+    "fatores_risco": []
+  }
+}

@@ -236,9 +236,51 @@ pip install requests minio
 
 ## 📝 Próximas Etapas
 
-Após o Load, você pode:
-1. **Transform:** Criar tabelas PostgreSQL a partir dos dados
-2. **Catalog:** Registrar metadados em Hive/Iceberg
-3. **Analytics:** Consultar via Trino/Spark
+### Phase 3: Transform (Normalização)
 
-Quer que eu crie o script de Transform?
+**Arquivos criados:**
+
+1. [database/SCHEMA_NORMALIZACAO.md] - Proposta de divisão em 10 tabelas normalizadas
+2. [database/01_create_schema.sql] - Script SQL para criar schema
+3. [scripts/normalize_and_load.py] - Script que normaliza CSV e popula tabelas
+
+**Passo 1: Criar schema PostgreSQL**
+```bash
+# Conectar ao banco postgres e executar o SQL
+psql -h localhost -p 5442 -U admin -d admin -f database/01_create_schema.sql
+```
+
+**Passo 2: Normalizar e carregar dados**
+```bash
+cd scripts/
+python normalize_and_load.py
+# ou especificar arquivo
+python normalize_and_load.py --file ../data/raw/dengue_TIMESTAMP.csv
+```
+
+**Resultado:**
+- ✅ `pacientes` - Dados demográficos
+- ✅ `localizacoes` - Informações geográficas (notificação + residência)
+- ✅ `diagnosticos` - Resultados laboratoriais (sorologia, PCR, NS1, etc)
+- ✅ `cases` - Tabela central com casos
+- ✅ `casos_sintomas` - Sintomas por caso
+- ✅ `casos_fatores_risco` - Fatores de risco por caso
+- ✅ `manifestacoes_hemor` - Manifestações hemorrágicas
+- ✅ `alertas_graves` - Sinais de alerta grave
+- ✅ `sintomas` (dimensão)
+- ✅ `fatores_risco` (dimensão)
+- ✅ Views para análise agregada
+
+**Pipeline completo:**
+```bash
+# 1. Extrair e carregar no MinIO
+python elt_pipeline.py
+
+# 2. Criar schema PostgreSQL
+psql -h localhost -p 5442 -U admin -d admin -f database/01_create_schema.sql
+
+# 3. Normalizar e popular tabelas
+python normalize_and_load.py
+```
+
+Quer que eu crie análises SQL ou dashboards com os dados normalizados?

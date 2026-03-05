@@ -1,4 +1,6 @@
 requests
+minio
 pandas
 sqlalchemy
 psycopg2-binary
+numpy
